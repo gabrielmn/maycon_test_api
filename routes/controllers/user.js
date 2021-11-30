@@ -16,7 +16,7 @@ router.post("/login", async (req, res, next) => {
             // usersema or password wrong.
             res.status(400).send("User or password wrong.");
         } else {
-                const token = jwt.sign({ id: rows[0].id}, "toke_key", { expiresIn: "1 day" });
+                const token = jwt.sign({ id: rows[0].id}, "token_key", { expiresIn: "1 day" });
                 res.status(200).send({ id: rows[0].id, token: "Bear " + token });
         }
     } catch (error) {
