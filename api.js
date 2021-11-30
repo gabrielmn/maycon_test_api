@@ -6,6 +6,6 @@ app.use(require("./routes/routes"))
 app.use(express.json());
 
 
-app.listen(()=>{
+app.listen(3000,()=>{
     console.log('API online');
 })
