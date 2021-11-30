@@ -7,7 +7,7 @@ async function auth(req, res, next){
             throw 401;
         }
         const token = req.header('Authorization').substr(req.header('Authorization').search(" ") + 1);
-        const decoded = jwt.verify(token, 'token_key');       
+        const decoded = jwt.verify(token, 'token_key');
         next();
     } catch (error) {
         if(error === 401){
