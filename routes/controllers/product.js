@@ -18,7 +18,7 @@ router.post("/", async (req, res, next) => {
         const image_path = `${LOCAL_STORAGE}/product_${name}.${data[1]}`;
         await fs.writeFile(image_path, data[0], 'base64')
         let sql = 'INSERT INTO `products`(`category_id`, `name`, `image_path`, `createdAt`, `updatedAt`) VALUES (?, ?, ?, ?, ?);'
-        sql = mysql.formatQuery(sql, [category_id, name, image_path, currentDate, currentDate]);
+        sql = mysql.formatQuery(sql, [categoryId, name, image_path, currentDate, currentDate]);
         connection = await mysql.connect();
         const [rows, fields] = await connection.query(sql);
         if (rows.affectedRows  === 1) {
