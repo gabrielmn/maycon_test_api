@@ -8,7 +8,7 @@ const {uriExtractor} = require('../../shared/uri');
 const LOCAL_STORAGE =  "images"
 
 
-router.post("/", auth, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
 
     let connection;
     try {
