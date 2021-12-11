@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('../../database/mysql')
 const {auth} = require('../../middleware/auth')
 const fs = require('fs/promises')
-
+const {uriExtractor} = require('../../shared/uri');
 
 const LOCAL_STORAGE =  "images"
 
@@ -14,8 +14,9 @@ router.post("/", auth, async (req, res, next) => {
     try {
         const currentDate = new Date().toISOString().slice(0,10);
         const {category_id, name, image } = req.body;
-        const image_path = `${LOCAL_STORAGE}/product_${name}.jpg`;
-        await fs.writeFile(image_path, image, 'base64')
+        const data = uriExtractor(image);
+        const image_path = `${LOCAL_STORAGE}/product_${name}.${data[1]}`;
+        await fs.writeFile(image_path, data[0], 'base64')
         let sql = 'INSERT INTO `products`(`category_id`, `name`, `image_path`, `createdAt`, `updatedAt`) VALUES (?, ?, ?, ?, ?);'
         sql = mysql.formatQuery(sql, [category_id, name, image_path, currentDate, currentDate]);
         connection = await mysql.connect();
@@ -37,14 +38,15 @@ router.post("/", auth, async (req, res, next) => {
 })
 
 
-router.post("/category", auth, async (req, res, next) => {
+router.post("/category", async (req, res, next) => {
 
     let connection;
     try {
         const currentDate = new Date().toISOString().slice(0,10);
         const {name, image } = req.body;
-        const image_path = `${LOCAL_STORAGE}/category_${name}.jpg`;
-        await fs.writeFile(image_path, image, 'base64')
+        const data = uriExtractor(image);
+        const image_path = `${LOCAL_STORAGE}/category_${name}.${data[1]}`;
+        await fs.writeFile(image_path, data[0], 'base64')
         let sql = 'INSERT INTO `categories`(`name`, `image_path`,`createdAt`, `updatedAt`) VALUES ( ?, ?, ?, ?);'
         sql = mysql.formatQuery(sql, [ name, image_path, currentDate, currentDate]);
         connection = await mysql.connect();
