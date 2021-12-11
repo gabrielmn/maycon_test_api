@@ -13,7 +13,7 @@ router.post("/", async (req, res, next) => {
     let connection;
     try {
         const currentDate = new Date().toISOString().slice(0,10);
-        const {category_id, name, image } = req.body;
+        const {categoryId, name, image } = req.body;
         const data = uriExtractor(image);
         const image_path = `${LOCAL_STORAGE}/product_${name}.${data[1]}`;
         await fs.writeFile(image_path, data[0], 'base64')
